@@ -1,28 +1,47 @@
-#Getting and Cleaning Data Project A code book that describes the variables, the data, and any transformations or work that I performed to clean up the data.
+Collection
+Raw data are obtained from UCI Machine Learning repository: http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones.
 
-#Description A full description of the data used in this project can be found here. The data can be found here.
-
+Data Set Information
 The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data.
 
 The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain.
 
-##Attributes For each record in the dataset it is provided:
+Attribute Information:
+For each record in the dataset it is provided:
 
 Triaxial acceleration from the accelerometer (total acceleration) and the estimated body acceleration.
 Triaxial Angular velocity from the gyroscope.
 A 561-feature vector with time and frequency domain variables.
 Its activity label.
 An identifier of the subject who carried out the experiment.
-#Algorithm. The following steps describe algorithm of data analysis.
+See Readme file into 'UCI HAR Dataset' for more information.
 
-##Step 1. Reading the data from files and assigning names. On this step I read the data from UCI HAR Dataset folder from files: features.txt, activity_labels.txt, X_train and X_test, y_tain and y_test, subject_train and subject_test. Also assign names to some variable in order to make data readable.
+Raw Data transformation
+The raw data sets are processed with the script run_analysis.R script to create a tidy data set.
 
-##Step 2. Merging test and train sets. At first I create train set by binding y_train, subject_train and x_train. Afterwards, do the same for test set. Then, merging the train and test sets
+Merge training and test sets Test and training data, subject ids and activity ids are merged to obtain a single data set. Variables are labelled with the names assigned by original collectors.
 
-##Step 3. Extracting only the measurements on the mean and standard deviation for each measurement. Create a logical vector with grepl function, that contains TRUE values for the activity_Id, subject, mean and stdev columns and FALSE values for the others. Subset this data to keep only the necessary columns.
+Extract mean and standard deviation variables Keep only the values of estimated mean and standard deviation .
 
-##Step 4. Using descriptive activity names to name the activities in the data set Merge data subset from step 3 with the activity type table activity_labels to make the activity names. Then I make data tidy by excluding redundant information (activity id and name of activity).
+Get descriptive activity names A new column is added to intermediate data set with the activity description.
 
-##Step 5. Appropriately label the data set with descriptive activity names. Use gsub function for pattern replacement to clean up the data labels.
+Get abel variables appropriately Labels given from the original collectors were changed to get valid/more descriptive R names
 
-##Step 6. Create a second, independent tidy data set with the average of each variable for each activity and each subject. Creating independent tidy data set with the average of each variable for activity and subject and writing it to avg_by_act_sub.txt file.
+Create a tidy data set From the intermediate data set is created a final tidy data set where numeric variables are averaged for each activity and each subject.
+
+Tidy data set
+Variables
+The tidy data set contains :
+
+an identifier of the subject who carried out the experiment (Subject). Its range is from 1 to 30.
+an activity label (Activity): WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING
+mean of all other variables are measurement collected from the accelerometer and gyroscope 3-axial raw signal (numeric value)
+The variable name convention is like the following:
+
+measurement: the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag). Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals). Additional vectors obtained by averaging the signals in a signal window sample. These are used on the angle() variable: gravityMean, tBodyAccMean, tBodyAccJerkMean, tBodyGyroMean,tBodyGyroJerkMean.
+
+.mean/std: mean or standard deviation of the measurement
+
+.X/Y/Z: one direction of a 3-axial signal
+
+.mean: global mean value
